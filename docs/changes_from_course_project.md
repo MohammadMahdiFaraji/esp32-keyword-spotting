@@ -1,20 +1,20 @@
 # What I changed compared to my course project
 
-My original files are in [`legacy/original_course_submission`](../legacy/original_course_submission). That folder also has a list of where each problem is in the old code.
+When I came back to my course project, I first wanted to clean it up a bit. Instead I found a chain of bugs. Some of them made the numbers look better than they were. Others meant the board never got the input the model expected. Here is the full list, with what each problem caused and how I fixed it. My original files are in [`legacy/original_course_submission`](../legacy/original_course_submission), together with a list of where each problem sits in the old code.
 
-| Problem in my first version | What it caused | What I did |
+| What was wrong | Why it mattered | What I did |
 |---|---|---|
-| random 80/20 split | the same speakers were in train and validation, so the 93.6 % I reported was too optimistic | official split by speaker + a separate test set |
-| MFCC padded to 50 frames, but 1 s clips only have 32 | 36 % of the inputs were always zero, so the model only used the first second | exactly 1 s of audio, padding on the audio |
-| test clips cut from the start | in 3 of my clips the word came later | 1 s window around the word |
-| one test file was there twice | 28 clips reported, only 27 different | duplicates are skipped (checked with a hash) |
-| only the 4 words as classes | silence or any other word was always reported as a keyword | silence and unknown classes + energy gate |
-| scaler fitted on all data and never saved | the ESP32 got raw MFCC values | mean / std from the training set, exported to the ESP32 |
-| features for the ESP32 made in a different order | wrong input on the ESP32 | one feature function for everything |
-| wrong order of the class names in the sketch | wrong labels | class names written to the header by the notebook |
-| missing `;` in the sketch | it did not compile | fixed and checked with arduino-cli |
-| float32 model, 361 KB | big and slow | int8, 58 KB |
+| The data was split into train and validation at random | The same people were in both parts. The model was partly tested on voices it already knew, so the 93.6 % I reported was too optimistic. | I use the official split of the dataset, where every speaker is in only one part, plus a separate test set |
+| The features were padded to 50 time steps, but a 1-second clip only has 32 | More than a third of the input was always zero, so the model only ever looked at the first second | Exactly 1 second of audio; if a clip is shorter, the padding is added to the sound, not to the features |
+| My own test clips were cut from the start | In 3 of my clips the word came after the first second, so the model heard silence | I cut out the 1 second around the word |
+| One test file was in the folder twice | I reported 28 test clips, but only 27 were different | Exact copies are now found with a hash and skipped |
+| The model only knew the four words | Silence, coughs or any other word were always reported as one of the four | Two extra classes, *silence* and *unknown*, plus a quick loudness check on the board |
+| The scaling of the features was fitted on all the data and never saved | The board got raw, unscaled numbers, while the model was trained on scaled ones | The scaling values come from the training data only, and the notebook writes them into a header file for the board |
+| The features for the board were made by a separate, slightly different piece of code | The numbers arrived in a different order than during training | One feature function is used for everything |
+| The names of the words in the Arduino code were in the wrong order | The board printed the wrong word | The notebook writes the word list into a header file, so it always matches the model |
+| A semicolon was missing in the sketch | It did not compile in its final form | Fixed, and every version is compiled before it goes on the board |
+| The model was stored as 32-bit floats (361 KB) | Big and slow for a microcontroller | int8 model, 58 KB |
 
-## Why the old demo looked correct
+## Why the old demo still seemed to work
 
-For the demo I recorded a "yes", computed its MFCCs in Colab and pasted them into the sketch. Because of the bugs above, the old model actually predicted *right* for that clip. The class-name table in the sketch was in the wrong order, so it printed *yes*. Two bugs cancelled each other out, and the demo only looked correct by luck.
+For the demo, I recorded a "yes", computed its features in Colab and pasted the numbers into the Arduino code. Because of the bugs above, the model on the board actually decided "right". But the table with the names of the words was in the wrong order, so the board printed "yes". Two mistakes cancelled each other out, and the demo looked correct purely by luck.
