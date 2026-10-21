@@ -1,0 +1,42 @@
+# Serial output of firmware/kws_esp32 on an ESP32-WROOM-32 DevKit (240 MHz), arduino-esp32 3.0.7, tflm_esp32 2.0.0
+# captured 2026-10-21, 115200 baud, after a reset
+
+=== Keyword spotting on ESP32 ===
+Model: cnn, 59608 bytes, input int8, arena used 15260 of 49152 bytes
+
+file             true     ESP32           Python
+yes_1            yes      yes     1.00    yes     1.00  
+yes_2            yes      yes     1.00    yes     1.00  
+yes_3            yes      yes     1.00    yes     1.00  
+yes_4            yes      yes     1.00    yes     1.00  
+yes_5            yes      yes     1.00    yes     1.00  
+yes_7            yes      yes     1.00    yes     1.00  
+no_3             no       no      1.00    no      1.00  
+no_4             no       no      1.00    no      1.00  
+no_5             no       unknown 0.93    unknown 0.93   wrong
+no_6             no       no      0.89    no      0.89  
+no_7             no       no      0.93    no      0.93  
+no_8             no       no      1.00    no      1.00  
+no_9             no       no      1.00    no      1.00  
+left_1           left     left    1.00    left    1.00  
+left_2           left     left    0.71    left    0.71  
+left_3           left     left    1.00    left    1.00  
+left_4           left     left    1.00    left    1.00  
+left_5           left     left    0.86    left    0.86  
+left_6           left     left    1.00    left    1.00  
+left_7           left     left    0.63    no      0.50   (differs from Python!)
+right_1          right    right   1.00    right   1.00  
+right_2          right    right   1.00    right   1.00  
+right_3          right    right   1.00    right   1.00  
+right_4          right    right   0.93    right   0.93  
+right_5          right    right   1.00    right   1.00  
+right_6          right    right   1.00    right   1.00  
+right_7          right    right   1.00    right   1.00  
+digital_silence  silence  silence 1.00    silence 1.00   (energy gate)
+
+Accuracy on the stored clips: 27/28 (96.4%)
+Same prediction as Python:    27/28
+Mean time per clip:           78200 us (normalize + quantize + inference)
+
+Send T to run the test again, or use tools/live_demo.py for live audio.
+

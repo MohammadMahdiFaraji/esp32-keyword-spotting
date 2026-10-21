@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+
+# Files the notebook creates when it is run locally from notebooks/
+notebooks/data/
+notebooks/outputs/
+notebooks/kws_outputs.zip
+notebooks/repo.zip
+
+# Arduino / editors / OS
+build/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

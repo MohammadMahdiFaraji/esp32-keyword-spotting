@@ -1,0 +1,9 @@
+# notebooks/keyword_spotting.ipynb - versions of the reported run (Google Colab, Python 3.13)
+tensorflow==2.21.0
+keras==3.13.2
+librosa==0.11.0
+numpy>=2.0
+pandas
+matplotlib
+seaborn
+scikit-learn
